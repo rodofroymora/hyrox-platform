@@ -1,0 +1,14 @@
+# Global owner — required review on every PR
+* @rodofroymora
+
+# Docs
+docs/ @rodofroymora
+
+# Agents
+agents/ @rodofroymora
+
+# Infrastructure (extra care)
+infra/ @rodofroymora
+
+# CI/CD
+.github/ @rodofroymora
