@@ -49,7 +49,7 @@ Se elige **Sled Pull** por las siguientes razones:
 - YouTube: canal Sled Pull
 
 ### Stack técnico landing
-- **Frontend:** Next.js 14 + TypeScript + Tailwind + App Router
+- **Frontend:** Next.js 16 + TypeScript + Tailwind + App Router
 - **Hosting:** Vercel (free tier inicial)
 - **Email:** Loops (free tier hasta 1000 contacts)
 - **Analytics:** Vercel Analytics (privacy-first, alineado con ADR-004)
