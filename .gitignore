@@ -1,5 +1,6 @@
 # === Local working folders ===
 Documentos_Iniciales/
+.venv/
 
 # === Python ===
 __pycache__/
