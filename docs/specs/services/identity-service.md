@@ -1,7 +1,7 @@
 # Spec: Identity Service
 
 **Versión:** 0.2.0
-**Status:** Draft — pendiente aprobación del founder
+**Status:** Approved
 **Autor:** Backend Builder Agent
 **Fecha:** 2026-05-09
 **Reemplaza:** v0.1.0 (health check only)
@@ -49,7 +49,13 @@ El cliente móvil (iOS) completa el flujo OAuth con el SDK nativo y envía el **
 - `athlete` — usuario final del producto
 - `gym_admin` — administrador de un tenant gimnasio
 
-La creación de tenants gimnasio y su primer `gym_admin` es responsabilidad del `platform_admin` (fuera de scope de este servicio en v0.2.0 — operación manual).
+La creación de tenants gimnasio y su primer `gym_admin` se realiza vía **script CLI local** (`scripts/create_gym_tenant.py`), ejecutado por el platform_admin. No hay endpoint HTTP — elimina superficie de ataque y es suficiente para la fase actual. Un admin UI se especificará cuando el volumen de onboarding lo justifique.
+
+### Proveedor de email
+**Resend** (`resend` Python SDK). Free tier 3.000 emails/mes, SDK de una línea, entregabilidad excelente. Se añade como dependencia en `pyproject.toml`. La API key se inyecta vía variable de entorno `RESEND_API_KEY`.
+
+### OAuth en web dashboard
+Diferido a v0.3.0. El web dashboard (usado por gym admins) usa email + password en v0.2.0. Los gym admins son creados por el script CLI, no se auto-registran. El flujo OAuth PKCE para web es arquitectónicamente distinto al ID token móvil y no justifica el esfuerzo en esta versión.
 
 ### Tenant assignment
 - Registro libre → `tenant_id = self_tenant_id` (UUID fijo, tenant especial `self`)
@@ -456,6 +462,4 @@ Feature: Aislamiento de tenants
 
 ## Cuestiones abiertas
 
-1. **Creación de tenants gimnasio y primer gym_admin** — ¿operación manual por platform_admin vía script, o se especifica un endpoint de onboarding? Fuera de scope v0.2.0 pero bloquea pruebas de invite flow en staging.
-2. **Envío de emails** — ¿proveedor preferido? (SendGrid, Resend, SES). Necesario antes de implementar verificación y password reset.
-3. **Google/Apple OAuth en web dashboard** — ¿el web dashboard también usa OAuth nativo o flujo redirect estándar? Esta spec cubre solo el flujo móvil (ID token).
+Ninguna — todas las decisiones bloqueantes están resueltas. Spec lista para implementación.
