@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test-identity:
+    name: identity / pytest
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: services/identity
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: "2.4.1"
+          virtualenvs-in-project: true
+
+      - name: Cache venv
+        uses: actions/cache@v4
+        with:
+          path: services/identity/.venv
+          key: identity-${{ runner.os }}-${{ hashFiles('services/identity/poetry.lock') }}
+          restore-keys: identity-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Lint (ruff)
+        run: poetry run ruff check identity/ tests/
+
+      - name: Type check (mypy)
+        run: poetry run mypy identity/
+
+      - name: Tests
+        run: poetry run pytest -v --tb=short
