@@ -155,6 +155,11 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
+# === Test artifacts ===
+.pytest_cache/
+.coverage
+htmlcov/
+
 # === Misc ===
 *.log
 *.pid
